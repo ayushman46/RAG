@@ -1,0 +1,31 @@
+# Core LangChain packages (RAG & LLM integration)
+langchain>=0.0.300
+langchain-community>=0.0.0
+langchain-core>=0.1.0
+langchain-text-splitters>=0.0.1
+langchain-ollama>=0.1.0
+
+# Vector database
+chromadb>=0.3.21
+
+# FastAPI & Server
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# Document processing
+pypdf>=3.0.0
+beautifulsoup4>=4.9.0
+
+# HTTP & Data
+requests>=2.31.0
+pydantic>=2.0.0
+
+# LLM integration
+ollama>=0.6.1
+
+# Embeddings
+sentence-transformers>=2.2.0
+
+# Additional utilities
+python-dotenv>=1.0.0
+tqdm>=4.60.0
