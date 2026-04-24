@@ -48,12 +48,12 @@ EMBEDDING_MODEL = "nomic-embed-text"
 # PATHS - Where files and databases are stored
 # ==================================================================================
 
-CHROMA_DB_PATH = "./chroma_db"
-# Where ChromaDB stores the vector database (embeddings, chunks, metadata)
-# Change this to an absolute path if you want it elsewhere:
-#   - "/Users/ayush/Downloads/rag-pipeline/chroma_db" - absolute path
-#   - "/tmp/chroma_db" - temporary location (cleared on reboot)
+FAISS_DB_PATH = "./faiss_db"
+# Where FAISS stores the vector database
 # Note: ingest.py creates this folder automatically
+
+BM25_INDEX_PATH = "./bm25_index"
+# Where the BM25 keyword index is saved
 
 DOCS_PATH = "./my_docs"
 # Where ingest.py looks for documents to index
@@ -277,7 +277,8 @@ if __name__ == "__main__":
     
     print("📁 PATHS:")
     print(f"   Documents: {DOCS_PATH}")
-    print(f"   ChromaDB: {CHROMA_DB_PATH}")
+    print(f"   FAISS DB: {FAISS_DB_PATH}")
+    print(f"   BM25 Index: {BM25_INDEX_PATH}")
     print()
     
     print("✂️  CHUNKING:")

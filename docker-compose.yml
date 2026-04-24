@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: multimodal_rag_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist vector databases and documents
+      - ./my_docs:/app/my_docs
+      - ./faiss_db:/app/faiss_db
+      - ./bm25_index:/app/bm25_index
+    environment:
+      # Connect to Ollama running natively on the host Mac
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    extra_hosts:
+      # Allow docker container to reach localhost of the host machine
+      - "host.docker.internal:host-gateway"
