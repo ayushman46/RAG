@@ -4,6 +4,27 @@ This document provides an in-depth walkthrough of the entire RAG pipeline from i
 
 ---
 
+## 0. Beginner's Guide: The Big Picture
+
+If you're completely new to this, don't worry! Here is a simple breakdown of what this project actually does and how all the pieces connect.
+
+Imagine you have a giant stack of complex documents—like invoices, research papers, or financial reports—and you want to ask questions about them. Usually, a computer just sees a PDF as a picture of text. It gets confused by tables, columns, and images. 
+
+Here is how our system solves this, step-by-step:
+
+1. **The Brains (Ollama)**: We use a tool called Ollama. Think of Ollama as the "engine" that runs the AI models right on your computer (instead of sending your private data to the internet). It runs `llama3.2` (the AI that talks to you) and `nomic-embed-text` (a special AI that translates text into numbers so the computer can search it).
+2. **Reading the Documents (Ingestion)**: You drop your PDFs into the `my_docs/` folder. We use a powerful reader that uses OCR (Optical Character Recognition). OCR acts like a pair of "eyes" that reads the text, but it also understands *layout*—it knows what a title is, what a paragraph is, and most importantly, it can read tables perfectly without scrambling the rows.
+3. **Filing the Information (FAISS + BM25)**: Once the documents are read, we cut them into small chunks and store them in two different digital filing cabinets:
+   - **FAISS (The Meaning Cabinet)**: This cabinet organizes chunks by *concepts*. If you search for "money," it knows to pull out chunks talking about "revenue" or "dollars."
+   - **BM25 (The Keyword Cabinet)**: This cabinet organizes chunks by *exact words*. If you search for a specific invoice number like "INV-1234," it finds exactly that text.
+4. **Asking a Question (The API)**: When you type a question in the web interface, it goes to our FastAPI backend (the middleman). The backend searches *both* filing cabinets to find the most relevant chunks of text. This dual-search method is called "Hybrid Retrieval."
+5. **Getting the Answer**: The backend gives your question AND the relevant chunks of text to the AI (Ollama). The AI reads those specific chunks and answers your question based *only* on them. Before showing you the answer, we do a "Grounding Check"—we double-check the AI's work to make sure it didn't invent a fake answer (hallucinate).
+6. **Docker (The Magic Box)**: Because the OCR "eyes" require a lot of messy software installations on your computer, we put the backend inside a "Docker container." A container is like a perfectly clean mini-computer inside your computer that has all the right software pre-installed. You just turn it on, and it works flawlessly without messing up your Mac!
+
+Now that you know the big picture, the technical details below will make much more sense!
+
+---
+
 ## 1. System Architecture: How It Works
 
 The system is built on a modern architecture designed to ingest complex, unstructured documents (like scanned PDFs), store them intelligently, and answer queries accurately using local Large Language Models (LLMs).
