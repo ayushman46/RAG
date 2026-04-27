@@ -100,7 +100,8 @@ def create_embeddings_and_store(chunks):
     print("   Building FAISS VectorStore...")
     faiss_db = FAISS.from_documents(chunks, embeddings)
     
-    os.makedirs(os.path.dirname(FAISS_DB_PATH) or ".", exist_ok=True)
+    # FAISS save_local handles directory creation, but we ensure parent exists
+    os.makedirs(os.path.dirname(os.path.abspath(FAISS_DB_PATH)), exist_ok=True)
     faiss_db.save_local(FAISS_DB_PATH)
     print(f"   ✅ FAISS index saved to {FAISS_DB_PATH}")
     
@@ -108,7 +109,7 @@ def create_embeddings_and_store(chunks):
     print("   Building BM25 Keyword Index...")
     bm25_retriever = BM25Retriever.from_documents(chunks)
     
-    os.makedirs(os.path.dirname(BM25_INDEX_PATH) or ".", exist_ok=True)
+    os.makedirs(BM25_INDEX_PATH, exist_ok=True)
     with open(f"{BM25_INDEX_PATH}/bm25.pkl", "wb") as f:
         pickle.dump(bm25_retriever, f)
     print(f"   ✅ BM25 index saved to {BM25_INDEX_PATH}/bm25.pkl")

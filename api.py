@@ -16,7 +16,7 @@ from typing import List, Dict, Any
 
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
-from langchain.retrievers import EnsembleRetriever
+from langchain_classic.retrievers import EnsembleRetriever
 from langchain_core.prompts import PromptTemplate
 
 from config import (
